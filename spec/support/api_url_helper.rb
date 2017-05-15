@@ -14,7 +14,7 @@ module ApiUrlHelper
 
     def api_url_for(*components)
       model = components.shift
-      uuid = model.is_a?(String) ? model : model.uuid
+      uuid = model.respond_to?(:uuid) ? model.uuid : model
       [api_root, uuid, *components].join('/')
     end
 
