@@ -15,14 +15,13 @@ module LabwareHelper
   def self.cycling_colours(name, &block)
     define_method(:"#{name}_colour") do |*args|
       return 'failed' if FAILED_STATES.include?(args.first) # First argument is always the well
-      @colours  ||= Hash.new { |h, k| h[k] = STANDARD_COLOURS.dup }
-      @rotating ||= Hash.new { |h, k| h[k] = @colours[name].rotate!.last } # Go for last as it was first before the rotate
+      @colours  ||= Hash.new { |h, k| h[k] = STANDARD_COLOURS.dup.cycle }
+      @rotating ||= Hash.new { |h, k| h[k] = @colours[name].next } # Go for last as it was first before the rotate
       @rotating[block.call(*args)]
     end
   end
 
   cycling_colours(:bait)    { |labware, _|            labware.bait }
-  cycling_colours(:tag)     { |labware, _|            labware.pool_id }
   cycling_colours(:pooling) { |_labware, destination| destination }
 
   def show_state?(state, presenter, transitions)
