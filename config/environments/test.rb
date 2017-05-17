@@ -47,6 +47,7 @@ Rails.application.configure do
   config.exception_recipients = 'nnnnnnnnnnnnnnnn'
   config.disable_exception_notifier = true
 
+  config.api_autopopulate                     = false
   config.api_connection_options               = ActiveSupport::OrderedOptions.new
   config.api_connection_options.namespace     = 'Limber'
   config.api_connection_options.url           = 'http://example.com:3000/'

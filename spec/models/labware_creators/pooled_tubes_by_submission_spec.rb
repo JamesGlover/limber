@@ -9,11 +9,6 @@ describe LabwareCreators::PooledTubesBySubmission do
     LabwareCreators::PooledTubesBySubmission.new(form_attributes)
   end
 
-  # Set up our templates
-  before(:each) do
-    LabwareCreators::PooledTubesBySubmission.default_transfer_template_uuid = 'transfer-to-wells-by-submission-uuid'
-  end
-
   let(:user_uuid)    { SecureRandom.uuid }
   let(:user)         { json :user, uuid: user_uuid }
   let(:purpose_uuid) { SecureRandom.uuid }

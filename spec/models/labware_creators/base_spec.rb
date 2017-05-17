@@ -26,12 +26,15 @@ describe LabwareCreators::Base do
   end
 
   context 'with a custom transfer-template' do
-    before(:each) do
-      Settings.purposes['test-purpose'] = { transfer_template: 'Custom transfer template' }
-      Settings.transfer_templates['Custom transfer template'] = 'custom-template-uuid'
+    let(:settings_transfer_template) do
+      create :settings_transfer_template, templates: [{ name: 'Custom transfer template', uuid: 'custom-template-uuid' }]
     end
 
-    subject { LabwareCreators::Base.new(purpose_uuid: 'test-purpose') }
+    before(:each) do
+      Settings.purposes['test-purpose'] = { transfer_template: 'Custom transfer template' }
+    end
+
+    subject { LabwareCreators::Base.new(purpose_uuid: 'test-purpose', transfer_templates: settings_transfer_template) }
 
     it 'can lookup form for another purpose' do
       expect(subject.transfer_template_uuid).to eq('custom-template-uuid')

@@ -22,7 +22,11 @@ describe Settings::TransferTemplate do
 
     it 'populates the templates list' do
       subject.populate(api)
-      expect(subject.uuid_for('Test transfers')).to eq('transfer-template-uuid')
+      expect(subject.uuid_for('Transfer columns 1-12')).to eq('transfer-columns-1-to-12')
+    end
+
+    it 'returns self to allow chaining' do
+      expect(subject.populate(api)).to eq(subject)
     end
   end
 

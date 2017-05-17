@@ -10,9 +10,21 @@ FactoryGirl.define do
     transfers('A1' => 'A1', 'B1' => 'B1')
     uuid 'transfer-template-uuid'
 
+    factory :transfer_columns_1_to_12 do
+      name 'Transfer columns 1-12'
+      uuid 'transfer-columns-1-to-12'
+      transfers WellHelpers.column_order.each_with_object({}) { |well, hash| hash[well] = well }
+    end
+
     factory :transfer_to_specific_tubes_by_submission do
       name 'Transfer wells to specific tubes defined by submission'
       uuid 'transfer-to-wells-by-submission-uuid'
+      transfers nil
+    end
+
+    factory :transfer_from_tube_to_tube_by_submission do
+      name 'Transfer from tube to tube by submission'
+      uuid 'transfer-from-tube-to-tube-by-submission'
       transfers nil
     end
 
@@ -34,7 +46,12 @@ FactoryGirl.define do
       # Furthermore, we trust the api gem to handle that side of things.
       resource_url { "#{api_root}transfer_templates" }
       uuid nil
-      available_templates %i[transfer_template transfer_to_specific_tubes_by_submission]
+      available_templates [
+        :transfer_columns_1_to_12,
+        :transfer_to_specific_tubes_by_submission,
+        :transfer_wells_to_mx_library_tubes_by_submission,
+        :transfer_from_tube_to_tube_by_submission,
+      ]
     end
 
     transfer_templates do

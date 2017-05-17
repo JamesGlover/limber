@@ -27,14 +27,15 @@ module LabwareCreators
     end
 
     self.page = 'multi_tube_pooling'
-    self.attributes = %i[api purpose_uuid parent_uuid user_uuid parents]
+    self.attributes = %i[api purpose_uuid parent_uuid user_uuid parents transfer_templates]
+    self.default_transfer_template_name = 'Transfer from tube to tube by submission'
 
     validate :all_parents_and_only_parents?, if: :barcodes_provided?
 
     def create_labware!
       success = []
       @all_tube_transfers = parents.map do |this_parent_uuid|
-        transfer_template.create!(
+        api.transfer_template.find(transfer_template_uuid).create!(
           user: user_uuid,
           source: this_parent_uuid
         ).tap { success << this_parent_uuid }
@@ -103,12 +104,6 @@ module LabwareCreators
         "#{val_barcodes.join(', ')} are not valid. No transfer has been performed. This is a bug, as you should have been prevented from getting this far."
       )
       false
-    end
-
-    def transfer_template
-      @template ||= api.transfer_template.find(
-        Settings.transfer_templates['Transfer from tube to tube by submission']
-      )
     end
   end
 end

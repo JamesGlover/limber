@@ -1,7 +1,6 @@
 ---
 :large_insert_limit: 250
 :searches: {}
-:transfer_templates: {}
 :printers:
   illumina_a:
     :plate_a: bac4df40-222b-11e4-8ce2-44fb42fffecc

@@ -8,11 +8,10 @@ describe LabwareCreators::FinalTube do
   has_a_working_api
 
   subject do
-    LabwareCreators::FinalTube.new(form_attributes.merge(api: api))
+    LabwareCreators::FinalTube.new(form_attributes.merge(api: api, transfer_templates: settings_transfer_template))
   end
 
   before(:each) do
-    Settings.transfer_templates['Transfer from tube to tube by submission'] = transfer_template_uuid
     stub_api_get(parent_uuid, body: tube_json)
     stub_api_get(transfer_template_uuid, body: json(:transfer_template, uuid: transfer_template_uuid))
   end
@@ -22,7 +21,8 @@ describe LabwareCreators::FinalTube do
   let(:parent_uuid) { 'parent-uuid' }
   let(:user_uuid) { 'user-uuid' }
   let(:multiplexed_library_tube_uuid) { 'multiplexed-library-tube--uuid' }
-  let(:transfer_template_uuid) { 'transfer-template-uuid' }
+  let(:transfer_template_uuid) { 'transfer-from-tube-to-tube-by-submission' }
+  let(:settings_transfer_template) { create :settings_transfer_template }
 
   let(:form_attributes) do
     {

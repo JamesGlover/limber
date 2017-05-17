@@ -6,12 +6,7 @@ require 'labware_creators/base'
 # CreationForm is the base class for our forms
 describe LabwareCreators::FinalTubeFromPlate do
   subject do
-    LabwareCreators::FinalTubeFromPlate.new(form_attributes)
-  end
-
-  # Set up our templates
-  before(:each) do
-    LabwareCreators::FinalTubeFromPlate.default_transfer_template_uuid = 'transfer-to-mx-tubes-on-submission'
+    LabwareCreators::FinalTubeFromPlate.new(form_attributes.merge(api: api, transfer_templates: settings_transfer_template))
   end
 
   let(:user_uuid)    { SecureRandom.uuid }
@@ -20,13 +15,13 @@ describe LabwareCreators::FinalTubeFromPlate do
   let(:purpose)      { json :purpose, uuid: purpose_uuid }
   let(:parent_uuid)  { SecureRandom.uuid }
   let(:parent)       { json :plate, uuid: parent_uuid, pool_sizes: [3, 3] }
+  let(:settings_transfer_template) { create :settings_transfer_template }
 
   let(:form_attributes) do
     {
       user_uuid: user_uuid,
       purpose_uuid: purpose_uuid,
-      parent_uuid: parent_uuid,
-      api: api
+      parent_uuid: parent_uuid
     }
   end
 

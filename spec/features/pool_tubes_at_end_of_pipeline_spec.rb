@@ -30,7 +30,7 @@ feature 'Pool tubes at end of pipeline', js: true do
 
   # Setup stubs
   background do
-    Settings.transfer_templates['Transfer from tube to tube by submission'] = 'transfer-template-uuid'
+    Limber::Application.config.transfer_templates.register(name: 'Transfer from tube to tube by submission', uuid: 'transfer-template-uuid')
 
     # Set-up the tube config
     Settings.purposes = {}

@@ -14,11 +14,11 @@ module LabwareCreators
     include Form
     include PlateWalking
 
-    self.attributes = %i[api purpose_uuid parent_uuid user_uuid]
+    self.attributes = %i[api purpose_uuid parent_uuid user_uuid transfer_templates]
     validates :api, :purpose_uuid, :parent_uuid, :user_uuid, presence: true
 
-    class_attribute :default_transfer_template_uuid
-    self.default_transfer_template_uuid = Settings.transfer_templates['Transfer columns 1-12']
+    class_attribute :default_transfer_template_name
+    self.default_transfer_template_name = 'Transfer columns 1-12'
 
     attr_reader :plate_creation
 
@@ -61,11 +61,7 @@ module LabwareCreators
     end
 
     def transfer_template_uuid
-      if Settings.purposes.dig(purpose_uuid, :transfer_template)
-        Settings.transfer_templates[Settings.purposes.dig(purpose_uuid, :transfer_template)]
-      else
-        default_transfer_template_uuid
-      end
+      transfer_templates_settings.uuid_for!(transfer_template_name)
     end
 
     private
@@ -85,6 +81,14 @@ module LabwareCreators
 
       yield(@plate_creation.child) if block_given?
       true
+    end
+
+    def transfer_template_name
+      Settings.purposes.dig(purpose_uuid, :transfer_template) || default_transfer_template_name
+    end
+
+    def transfer_templates_settings
+      transfer_templates || Limber::Application.config.transfer_templates
     end
 
     def create_labware!

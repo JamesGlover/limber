@@ -15,7 +15,6 @@ feature 'Creating a plate with bait', js: true do
   let(:transfer_template) { json :transfer_template, uuid: transfer_template_uuid }
 
   background do
-    LabwareCreators::BaitedPlate.default_transfer_template_uuid = 'transfer-columns-uuid'
     Settings.purposes = {}
     Settings.purposes['example-purpose-uuid'] = { presenter_class: 'Presenters::StandardPresenter', asset_type: 'plate' }
     Settings.purposes['child-purpose-0'] = {

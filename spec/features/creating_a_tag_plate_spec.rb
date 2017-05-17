@@ -2,6 +2,7 @@
 
 require 'rails_helper'
 require_relative '../support/shared_tagging_examples'
+require_relative '../support/shared_settings_contexts'
 
 feature 'Creating a tag plate', js: true do
   has_a_working_api
@@ -20,17 +21,17 @@ feature 'Creating a tag plate', js: true do
   let(:tag2_tube_qcable_uuid) { 'tag-tube-qcable' }
   let(:tag2_tube_barcode)     { SBCF::SangerBarcode.new(prefix: 'NT', number: 1).machine_barcode.to_s }
   let(:tag2_tube_qcable)      { json :tag2_tube_qcable, uuid: tag2_tube_qcable_uuid, lot_uuid: 'lot2-uuid' }
-  let(:transfer_template_uuid) { 'transfer-template-uuid' }
-  let(:transfer_template) { json :transfer_template, uuid: transfer_template_uuid }
+  let(:transfer_template_uuid) { 'transfer-columns-1-to-12' }
+  let(:transfer_template) { json :transfer_columns_1_to_12, uuid: transfer_template_uuid }
   let(:tag_template_uuid) { 'tag-layout-template-0' }
   let(:tag2_template_uuid) { 'tag2-layout-template-0' }
 
   include_context 'a tag plate creator'
   include_context 'a tag plate creator with dual indexing'
+  include_context 'default transfer templates'
 
   # Setup stubs
   background do
-    LabwareCreators::Base.default_transfer_template_uuid = 'transfer-template-uuid'
     # Set-up the plate config
     Settings.purposes = {}
     Settings.purposes['stock-plate-purpose-uuid'] = { presenter_class: 'Presenters::StandardPresenter', asset_type: 'plate' }

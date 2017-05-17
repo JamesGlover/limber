@@ -9,6 +9,7 @@ module LabwareCreators
       api purpose_uuid parent_uuid user_uuid
       tag_plate_barcode tag_plate
       tag2_tube_barcode tag2_tube
+      transfer_templates
     ]
 
     validates :api, :purpose_uuid, :parent_uuid, :user_uuid, :tag_plate_barcode, :tag_plate, presence: true

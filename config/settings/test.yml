@@ -1,7 +1,6 @@
 ---
 :large_insert_limit: 250
 :searches: {}
-:transfer_templates: {}
 :printers:
   limit: 5
   default_count: 2

@@ -14,7 +14,11 @@ describe LabwareCreators::TaggedPlate do
   let(:wells) { json :well_collection, size: 16 }
   let(:wells_in_column_order) { WellHelpers.column_order }
   let(:transfer_template_uuid) { 'transfer-template-uuid' }
-  let(:transfer_template) { json :transfer_template, uuid: transfer_template_uuid }
+  let(:transfer_template_name) { 'Transfer columns 1-12' }
+  let(:transfer_template) { json :transfer_template, uuid: transfer_template_uuid, name: transfer_template_name }
+  let(:transfer_settings) do
+    build :settings_transfer_template, templates: [{ name: transfer_template_name, uuid: transfer_template_uuid }]
+  end
 
   let(:child_purpose_uuid) { 'child-purpose' }
   let(:child_purpose_name) { 'Child Purpose' }
@@ -28,13 +32,12 @@ describe LabwareCreators::TaggedPlate do
     Settings.purposes = {
       child_purpose_uuid => { name: child_purpose_name }
     }
-    LabwareCreators::Base.default_transfer_template_uuid = 'transfer-template-uuid'
     plate_request
     wells_request
   end
 
   subject do
-    LabwareCreators::TaggedPlate.new(form_attributes.merge(api: api))
+    LabwareCreators::TaggedPlate.new(form_attributes.merge(api: api, transfer_templates: transfer_settings))
   end
 
   context 'on new' do
@@ -169,8 +172,6 @@ describe LabwareCreators::TaggedPlate do
       end
 
       context 'on save!' do
-        Settings.transfer_templates['Custom pooling'] = 'custom-plate-transfer-template-uuid'
-
         it 'creates a tag plate' do
           subject.save!
           expect(state_change_tag_plate_request).to have_been_made.once

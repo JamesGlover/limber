@@ -3,7 +3,6 @@
 namespace :test_config do
   task :generate do
     settings = { searches: { 'Find something' => nil },
-                 transfer_templates: { 'Transfer columns' => nil },
                  purposes: { 'purpose-uuid' => nil },
                  request_types: { 'Request_type' => nil },
                  purpose_uuids: { 'purpose' => 'uuid' },

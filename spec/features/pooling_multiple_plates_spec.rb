@@ -85,7 +85,6 @@ feature 'Multi plate pooling', js: true do
   end
 
   background do
-    LabwareCreators::Base.default_transfer_template_uuid = 'transfer-template-uuid'
     Settings.purposes = {}
     Settings.purposes['stock-plate-purpose-uuid'] = {
       presenter_class: 'Presenters::StandardPresenter',

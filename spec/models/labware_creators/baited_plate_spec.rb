@@ -8,16 +8,13 @@ describe LabwareCreators::BaitedPlate do
     LabwareCreators::BaitedPlate.new(form_attributes)
   end
 
-  before(:each) do
-    LabwareCreators::BaitedPlate.default_transfer_template_uuid = 'transfer-columns-uuid'
-  end
-
   let(:user_uuid)    { SecureRandom.uuid }
   let(:user)         { json :user, uuid: user_uuid }
   let(:purpose_uuid) { SecureRandom.uuid }
   let(:purpose)      { json :purpose, uuid: purpose_uuid }
   let(:parent_uuid)  { SecureRandom.uuid }
   let(:parent)       { json :plate, uuid: parent_uuid, pool_sizes: [3, 3] }
+  let(:transfer_template_uuid) { 'transfer-columns-1-to-12' }
 
   let(:form_attributes) do
     {
@@ -68,11 +65,11 @@ describe LabwareCreators::BaitedPlate do
     end
 
     let!(:transfer_template_request) do
-      stub_api_get('transfer-columns-uuid', body: json(:transfer_template))
+      stub_api_get(transfer_template_uuid, body: json(:transfer_columns_1_to_12))
     end
 
     let!(:transfer_creation_request) do
-      stub_api_post('transfer-template-uuid',
+      stub_api_post(transfer_template_uuid,
                     payload: { transfer: {
                       destination: 'child-uuid',
                       source: parent_uuid,

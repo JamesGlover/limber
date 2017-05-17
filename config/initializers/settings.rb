@@ -33,3 +33,16 @@ class Settings
 end
 
 Settings.instance
+
+Limber::Application.config.transfer_templates = Settings::TransferTemplate.new
+
+if Limber::Application.config.api_autopopulate
+  begin
+    Sequencescape::Api.new(Limber::Application.config.api_connection_options).tap do |api|
+      Limber::Application.config.transfer_templates.populate(api)
+    end
+  rescue Errno::ECONNREFUSED
+    # TODO: Switch to lazy loading if Sequencescape is not present.
+    abort 'Could not connect to Sequencescape. Please ensure Sequencescape is running.'
+  end
+end
