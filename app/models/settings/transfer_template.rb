@@ -20,6 +20,7 @@ class Settings::TransferTemplate
   # @return [String,nil] The uuid matching that transfer template.
   #
   def uuid_for(name)
+    check_cache
     @store[name]
   end
 
@@ -45,10 +46,13 @@ class Settings::TransferTemplate
   #
   # @return [Settings::TransferTemplate] returns itself
   #
-  def populate(api)
+  def populate(uuid_cache)
     Rails.logger.info('Loading transfer templates...')
-    api.transfer_template.each do |template|
-      register(name: template.name, uuid: template.uuid)
+    begin
+      @store.merge!(uuid_cache.fetch(:transfer_templates))
+    rescue => original_exception
+      @unprocesed_cache = uuid_cache
+      raise original_exception
     end
     self
   end
@@ -67,5 +71,11 @@ class Settings::TransferTemplate
 
   def known_templates
     @store.keys
+  end
+
+  private
+
+  def check_cache
+    populate(@unprocesed_cache) if @unprocesed_cache
   end
 end

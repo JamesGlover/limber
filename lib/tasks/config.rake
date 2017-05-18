@@ -9,6 +9,11 @@ namespace :config do
   task generate: :environment do
     api = Sequencescape::Api.new(Limber::Application.config.api_connection_options)
 
+    # Build the uuid cache
+    uuid_cache = UuidCache.new(filename: Rails.root.join('config','settings',"#{Rails.env}_uuid_cache.yml"), api:api)
+    uuid_cache.build
+    uuid_cache.save
+
     all_purposes = api.plate_purpose.all.index_by(&:name).merge(api.tube_purpose.all.index_by(&:name))
 
     purpose_config = YAML.parse_file('config/purposes.yml').to_ruby.map do |name, options|

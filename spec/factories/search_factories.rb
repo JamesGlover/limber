@@ -9,9 +9,9 @@ FactoryGirl.define do
 
     factory :swipecard_search do
       name 'Find user by swipecard code'
+      uuid 'find-user-by-swipecard-code'
     end
   end
-
 
   # Builds all the transfer templates we're going to actually be using.
   factory :searches_collection, class: Sequencescape::Api::Associations::HasMany::AssociationProxy, traits: [:api_object] do

@@ -36,13 +36,14 @@ Settings.instance
 
 Limber::Application.config.transfer_templates = Settings::TransferTemplate.new
 
-if Limber::Application.config.api_autopopulate
+require './lib/lazy_api'
+require './lib/uuid_cache'
+
+LazyApi.new(Limber::Application.config.api_connection_options).tap do |api|
   begin
-    Sequencescape::Api.new(Limber::Application.config.api_connection_options).tap do |api|
-      Limber::Application.config.transfer_templates.populate(api)
-    end
+    uuid_cache = UuidCache.new(filename: Rails.root.join('config','settings',"#{Rails.env}_uuid_cache.yml"), api:api)
+    Limber::Application.config.transfer_templates.populate(uuid_cache)
   rescue Errno::ECONNREFUSED
-    # TODO: Switch to lazy loading if Sequencescape is not present.
-    abort 'Could not connect to Sequencescape. Please ensure Sequencescape is running.'
+    Rails.logger.error('Sequencescape connection unavailable. Initialization deferred.')
   end
-end
+end if Limber::Application.config.api_autopopulate

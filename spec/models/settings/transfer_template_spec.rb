@@ -9,24 +9,29 @@ describe Settings::TransferTemplate do
   describe '#populate' do
     has_a_working_api
 
+    let(:name) { 'test template' }
+    let(:uuid) { SecureRandom.uuid }
+
+    let(:uuid_cache) { UuidCache.new(filename: Rails.root.join('spec','data','uuid_cache.yml'), api: api) }
+
     let(:transfer_templates) { json(:transfer_template_collection) }
 
-    let!(:transfer_tamples_index_request) do
-      stub_api_get('transfer_templates', body: transfer_templates)
-    end
-
-    it 'requests templates from the api' do
-      subject.populate(api)
-      expect(transfer_tamples_index_request).to have_been_made.once
-    end
-
     it 'populates the templates list' do
-      subject.populate(api)
+      subject.populate(uuid_cache)
       expect(subject.uuid_for('Transfer columns 1-12')).to eq('transfer-columns-1-to-12')
     end
 
     it 'returns self to allow chaining' do
-      expect(subject.populate(api)).to eq(subject)
+      expect(subject.populate(uuid_cache)).to eq(subject)
+    end
+
+    it 'can be deferred' do
+      expect(uuid_cache).to receive(:fetch).with(:transfer_templates).and_raise(Errno::ECONNREFUSED)
+      # We still pass through the exception
+      expect { subject.populate(uuid_cache) }.to raise_error(Errno::ECONNREFUSED)
+      # Things recover
+      expect(uuid_cache).to receive(:fetch).with(:transfer_templates).and_return({ name => uuid})
+      expect(subject.uuid_for(name)).to eq(uuid)
     end
   end
 

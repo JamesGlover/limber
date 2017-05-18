@@ -46,11 +46,11 @@ FactoryGirl.define do
       # Furthermore, we trust the api gem to handle that side of things.
       resource_url { "#{api_root}transfer_templates" }
       uuid nil
-      available_templates [
-        :transfer_columns_1_to_12,
-        :transfer_to_specific_tubes_by_submission,
-        :transfer_wells_to_mx_library_tubes_by_submission,
-        :transfer_from_tube_to_tube_by_submission,
+      available_templates %i[
+        transfer_columns_1_to_12
+        transfer_to_specific_tubes_by_submission
+        transfer_wells_to_mx_library_tubes_by_submission
+        transfer_from_tube_to_tube_by_submission
       ]
     end
 
