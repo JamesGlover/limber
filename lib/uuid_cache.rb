@@ -49,7 +49,7 @@ class UuidCache
   def populate_from_cache
     begin
       @store = YAML.load_file(filename) || @store
-      @unbuilt = false
+      @unbuilt = @store.empty?
     rescue Errno::ENOENT
       Rails.logger.info('No uuid log file found.')
     end

@@ -68,16 +68,5 @@ Rails.application.configure do
   config.api_connection_options.url           = ENV.fetch('API_URL', 'http://localhost:3000/api/1/')
   config.api_connection_options.authorisation = ENV.fetch('API_KEY', 'development')
 
-  config.qc_submission_name = 'MiSeq for QC'
-  # By default used first study/project
-  config.study_uuid = nil
-  config.project_uuid = nil
-  config.request_options = {
-    'read_length' => 11,
-    'fragment_size_required' => {
-      'from' => 100,
-      'to'   => 100
-    }
-  }
   config.pmb_uri = ENV.fetch('PMB_URI', 'http://localhost:3002/v1/')
 end

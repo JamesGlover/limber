@@ -32,7 +32,7 @@ class SearchController < ApplicationController
   end
 
   def my_plates
-    plate_search = api.search.find(Settings.searches["Find Illumina-C plates for user"])
+    plate_search = api.search.find(Settings.searches['Find Illumina-C plates for user'])
     states = %w[pending started passed qc_complete]
 
     @search_results = plate_search.all(

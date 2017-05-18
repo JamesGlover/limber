@@ -35,13 +35,6 @@ namespace :config do
         end
       end
 
-      configuration[:transfer_templates] = {}.tap do |transfer_templates|
-        puts 'Preparing transfer templates ...'
-        api.transfer_template.all.each do |transfer_template|
-          transfer_templates[transfer_template.name] = transfer_template.uuid
-        end
-      end
-
       configuration[:printers] = {}.tap do |printers|
         printers[:plate_a] = 'g316bc'
         printers[:plate_b] = 'g311bc2'
@@ -63,20 +56,6 @@ namespace :config do
 
       configuration[:robots]      = ROBOT_CONFIG
       configuration[:qc_purposes] = []
-
-      configuration[:submission_templates] = {}.tap do |submission_templates|
-        puts 'Preparing submission templates...'
-        submission_templates['miseq'] = api.order_template.all.detect { |ot| ot.name == Limber::Application.config.qc_submission_name }.uuid
-      end
-
-      puts 'Setting study...'
-      configuration[:study] = Limber::Application.config.study_uuid ||
-                              puts('No study specified, using first study') ||
-                              api.study.first.uuid
-      puts 'Setting project...'
-      configuration[:project] = Limber::Application.config.project_uuid ||
-                                puts('No project specified, using first project') ||
-                                api.project.first.uuid
 
       configuration[:request_types] = {}.tap do |request_types|
         request_types['illumina_htp_library_creation']    = ['Lib Norm', false]
