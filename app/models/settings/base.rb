@@ -68,7 +68,7 @@ class Settings::Base
   # @return [String] The uuid matching that transfer template.
   #
   def uuid_for!(name)
-    uuid_for(name) || raise(Settings::UnknownResource, "Unknown #{human_name}: #{name}. Know #{human_name.pluralize}: #{known_resources}")
+    uuid_for(name) || raise(Settings::UnknownResource, "Unknown #{human_name}: #{name}. Known #{human_name.pluralize}: #{known_resources}")
   end
 
   private

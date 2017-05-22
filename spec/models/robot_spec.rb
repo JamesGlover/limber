@@ -1,9 +1,12 @@
 # frozen_string_literal: true
 
 require 'rails_helper'
+require_relative '../support/shared_settings_contexts'
 
 describe Robots::Robot do
   include FeatureHelpers
+
+  include_context 'default searches'
 
   let(:api)                         { Sequencescape::Api.new(Limber::Application.config.api_connection_options) }
   let(:settings)                    { YAML.load_file(Rails.root.join('spec', 'data', 'settings.yml')).with_indifferent_access }

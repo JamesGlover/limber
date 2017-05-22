@@ -31,8 +31,15 @@ class PlateMetadata
   private
 
   def find_plate(plate_barcode)
-    @plate = api.search.find(Settings.searches['Find assets by barcode']).first(barcode: plate_barcode)
+    @plate = plate_search.first(barcode: plate_barcode)
   rescue Sequencescape::Api::ResourceNotFound
     @plate = nil
+  end
+
+  def plate_search
+    @plate_search ||= begin
+      uuid = Limber::Application.config.searches.uuid_for!('Find assets by barcode')
+      api.search.find(uuid)
+    end
   end
 end

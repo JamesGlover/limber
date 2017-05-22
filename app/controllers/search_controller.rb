@@ -11,7 +11,7 @@ class SearchController < ApplicationController
 
   ## REVIEW: It needs to set the correct ongoing_plate_searching parameter
   def ongoing_plates(search = 'Find Illumina-B plates')
-    plate_search = api.search.find(Settings.searches[search])
+    plate_search = api.search.find(search_settings.uuid_for!(search))
     states = %w[pending started passed started_fx started_mj qc_complete nx_in_progress]
 
     @search_results = plate_search.all(
@@ -32,7 +32,7 @@ class SearchController < ApplicationController
   end
 
   def my_plates
-    plate_search = api.search.find(Settings.searches['Find Illumina-C plates for user'])
+    plate_search = api.search.find(search_settings.uuid_for!('Find Illumina-C plates for user'))
     states = %w[pending started passed qc_complete]
 
     @search_results = plate_search.all(
@@ -45,7 +45,7 @@ class SearchController < ApplicationController
   end
 
   def stock_plates(search = 'Find Illumina-B stock plates')
-    plate_search = api.search.find(Settings.searches[search])
+    plate_search = api.search.find(search_settings.uuid_for!(search))
     states = %w[pending started passed qc_complete]
 
     @search_results = plate_search.all(
@@ -91,19 +91,19 @@ class SearchController < ApplicationController
       else
         barcode
       end
-    api.search.find(Settings.searches['Find assets by barcode']).first(barcode: machine_barcode)
+    api.search.find(search_settings.uuid_for!('Find assets by barcode')).first(barcode: machine_barcode)
   rescue Sequencescape::Api::ResourceNotFound => exception
     raise exception, "Sorry, could not find labware with the barcode '#{barcode}'."
   end
 
   def find_qcable(barcode)
-    api.search.find(Settings.searches['Find qcable by barcode']).first(barcode: barcode)
+    api.search.find(search_settings.uuid_for!('Find qcable by barcode')).first(barcode: barcode)
   rescue Sequencescape::Api::ResourceNotFound => exception
     raise exception, "Sorry, could not find qcable with the barcode '#{barcode}'."
   end
 
   def retrieve_parent
-    parent_plate = api.search.find(Settings.searches['Find source assets by destination asset barcode']).first(barcode: params['barcode'])
+    parent_plate = api.search.find(search_settings.uuid_for!('Find source assets by destination asset barcode')).first(barcode: params['barcode'])
     respond_to do |format|
       format.json { render json: { plate: { parent_plate_barcode: parent_plate.barcode.ean13 } } }
     end
@@ -111,5 +111,11 @@ class SearchController < ApplicationController
     respond_to do |format|
       format.json { render json: { 'general' => exception.message }, status: 404 }
     end
+  end
+
+  private
+
+  def search_settings
+    Limber::Application.config.searches
   end
 end

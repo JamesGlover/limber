@@ -4,7 +4,7 @@ module FeatureHelpers
   def stub_search_and_single_result(search, query, result = nil)
     search_uuid = search.downcase.tr(' ', '-')
     search_url = 'http://example.com:3000/' + search_uuid
-    Settings.searches[search] = search_uuid
+
     stub_api_get(search_uuid, body: json(:swipecard_search, uuid: search_uuid))
 
     if result.present?

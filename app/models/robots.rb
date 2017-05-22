@@ -59,7 +59,7 @@ module Robots
         else
           @barcode = barcodes.first
           begin
-            @plate = api.search.find(Settings.searches['Find assets by barcode']).first(barcode: @barcode) unless @barcode.nil?
+            @plate = barcode_search.first(barcode: @barcode) unless @barcode.nil?
           rescue Sequencescape::Api::ResourceNotFound
             @plate = nil
           end
@@ -69,7 +69,7 @@ module Robots
       def parent_plate
         return nil if recieving_labware.nil?
         begin
-          api.search.find(Settings.searches['Find source assets by destination asset barcode']).first(barcode: recieving_labware.barcode.ean13)
+          source_asset_search.first(barcode: recieving_labware.barcode.ean13)
         rescue Sequencescape::Api::ResourceNotFound
           error("Labware #{recieving_labware.barcode.prefix}#{recieving_labware.barcode.number} doesn't seem to have a parent, and yet one was expected.")
           nil
@@ -80,6 +80,14 @@ module Robots
 
       def formatted_message
         "#{label} - #{error_messages.join(' ')}"
+      end
+
+      def source_asset_search
+        @source_asset_search ||= api.search.find(Limber::Application.config.searches.uuid_for!('Find source assets by destination asset barcode'))
+      end
+
+      def barcode_search
+        @barcode_search ||= api.search.find(Limber::Application.config.searches.uuid_for!('Find assets by barcode'))
       end
     end
 

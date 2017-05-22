@@ -52,7 +52,7 @@ module Robots
 
       def load(barcodes)
         @barcodes = Array(barcodes).uniq.reject(&:blank?)
-        @labware = api.search.find(Settings.searches['Find assets by barcode']).all(Limber::BarcodedAsset, barcode: barcodes)
+        @labware = barcode_search.all(Limber::BarcodedAsset, barcode: barcodes)
         @missing_barcodes = barcodes - @labware.map { |lw| lw.barcode.ean13 }
       end
 

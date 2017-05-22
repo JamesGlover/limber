@@ -28,6 +28,9 @@ require 'capybara/rspec'
 require 'capybara/poltergeist'
 require 'webmock/rspec'
 
+require_relative 'support/shared_tagging_examples'
+require_relative 'support/shared_settings_contexts'
+
 begin
   require 'pry'
 rescue LoadError
@@ -123,6 +126,11 @@ RSpec.configure do |config|
   config.before(:suite) do
     FactoryGirl.find_definitions
     Settings.robots = {}
+  end
+
+  config.before :example, type: :feature do
+    Limber::Application.config.transfer_templates = create :settings_transfer_template
+    Limber::Application.config.searches = create :settings_search
   end
 
   config.before(:each) do

@@ -1,6 +1,28 @@
 ---
 :searches:
+  Find assets by barcode: find-assets-by-barcode
+  Find project by name: find-project-by-name
+  Find study by name: find-study-by-name
+  Find sample by name: find-sample-by-name
+  Find source assets by destination asset barcode: find-source-assets-by-destination-asset-barcode
+  Find user by login: find-user-by-login
   Find user by swipecard code: find-user-by-swipecard-code
+  Find pulldown plates: find-pulldown-plates
+  Find Illumina-B plates: find-illumina-b-plates
+  Find Illumina-B plates for user: find-illumina-b-plates-for-user
+  Find Illumina-B stock plates: find-illumina-b-stock-plates
+  Find outstanding Illumina-B pre-PCR plates: find-outstanding-illumina-b-pre-pcr-plates
+  Find pulldown plates for user: find-pulldown-plates-for-user
+  Find pulldown stock plates: find-pulldown-stock-plates
+  Find Illumina-A plates: find-illumina-a-plates
+  Find Illumina-A stock plates: find-illumina-a-stock-plates
+  Find Illumina-C tubes: find-illumina-c-tubes
+  Find Illumina-C plates: find-illumina-c-plates
+  Find lot by lot number: find-lot-by-lot-number
+  Find qcable by barcode: find-qcable-by-barcode
+  Find robot by barcode: find-robot-by-barcode
+  Find lot by batch id: find-lot-by-batch-id
+  Find Illumina-C plates for user: find-illumina-c-plates-for-user
 :transfer_templates:
   Transfer columns 1-12: transfer-columns-1-to-12
   Transfer wells to specific tubes defined by submission: transfer-to-wells-by-submission-uuid

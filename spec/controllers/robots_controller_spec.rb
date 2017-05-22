@@ -6,6 +6,8 @@ require './app/controllers/robots_controller'
 describe RobotsController, type: :controller do
   include FeatureHelpers
 
+  include_context 'default searches'
+
   let(:settings) { YAML.load_file(Rails.root.join('spec', 'data', 'settings.yml')).with_indifferent_access }
 
   describe '#start' do

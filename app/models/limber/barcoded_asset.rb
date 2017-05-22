@@ -6,7 +6,7 @@
 class Limber::BarcodedAsset < Sequencescape::BarcodedAsset
   # We might actually be able to do something better here.
   def parent
-    @parent ||= api.search.find(Settings.searches['Find source assets by destination asset barcode']).first(barcode: barcode.ean13)
+    @parent ||= parent_search.first(barcode: barcode.ean13)
   end
 
   attribute_accessor :state
@@ -16,6 +16,11 @@ class Limber::BarcodedAsset < Sequencescape::BarcodedAsset
   alias purpose plate_purpose
 
   delegate :uuid, to: :purpose, prefix: true
-
   delegate :name, to: :purpose, prefix: true
+
+  private
+
+  def parent_search
+    api.search.find(Limber::Application.config.searches.uuid_for!('Find source assets by destination asset barcode'))
+  end
 end

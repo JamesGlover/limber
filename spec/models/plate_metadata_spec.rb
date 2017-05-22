@@ -11,6 +11,8 @@ describe PlateMetadata do
     end
   end
 
+  include_context 'default searches'
+
   describe 'with api' do
     let(:user_uuid)                 { SecureRandom.uuid }
     let(:user)                      { json :user, uuid: user_uuid }
