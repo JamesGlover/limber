@@ -64,16 +64,16 @@ module Robots
     end
 
     def parent_plate
-      return nil if recieving_labware.nil?
+      return nil if receiving_labware.nil?
       begin
-        source_asset_search.first(barcode: recieving_labware.barcode.ean13)
+        source_asset_search.first(barcode: receiving_labware.barcode.ean13)
       rescue Sequencescape::Api::ResourceNotFound
-        error("Labware #{recieving_labware.barcode.prefix}#{recieving_labware.barcode.number} doesn't seem to have a parent, and yet one was expected.")
+        error("Labware #{receiving_labware.barcode.prefix}#{receiving_labware.barcode.number} doesn't seem to have a parent, and yet one was expected.")
         nil
       end
     end
 
-    alias recieving_labware plate
+    alias receiving_labware plate
 
     def formatted_message
       "#{label} - #{error_messages.join(' ')}"

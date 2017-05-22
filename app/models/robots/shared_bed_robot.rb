@@ -70,7 +70,7 @@ module Robots
         secondary_purposes.length + 1
       end
 
-      def recieving_labware
+      def receiving_labware
         grouped_labware.fetch(first_purpose, []).first
       end
 
