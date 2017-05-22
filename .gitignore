@@ -7,3 +7,4 @@ public/stylesheets/*.css
 .sass-cache/
 *.orig
 *.sublime-workspace
+config/settings/*_uuid_cache.yml
