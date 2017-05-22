@@ -71,6 +71,12 @@ class Settings::Base
     uuid_for(name) || raise(Settings::UnknownResource, "Unknown #{human_name}: #{name}. Known #{human_name.pluralize}: #{known_resources}")
   end
 
+  def self.define_helper_method(method_name, record_name)
+    define_method(method_name) do
+      uuid_for!(record_name)
+    end
+  end
+
   private
 
   def list_name

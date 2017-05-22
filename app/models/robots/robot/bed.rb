@@ -80,11 +80,11 @@ module Robots
     end
 
     def source_asset_search
-      @source_asset_search ||= api.search.find(Limber::Application.config.searches.uuid_for!('Find source assets by destination asset barcode'))
+      @source_asset_search ||= api.search.find(Limber::Application.config.searches.source_by_parent_barcode)
     end
 
     def barcode_search
-      @barcode_search ||= api.search.find(Limber::Application.config.searches.uuid_for!('Find assets by barcode'))
+      @barcode_search ||= api.search.find(Limber::Application.config.searches.assets_by_barcode)
     end
   end
 end

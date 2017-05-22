@@ -38,7 +38,7 @@ class PlateMetadata
 
   def plate_search
     @plate_search ||= begin
-      uuid = Limber::Application.config.searches.uuid_for!('Find assets by barcode')
+      uuid = Limber::Application.config.searches.assets_by_barcode
       api.search.find(uuid)
     end
   end

@@ -21,6 +21,6 @@ class Limber::BarcodedAsset < Sequencescape::BarcodedAsset
   private
 
   def parent_search
-    api.search.find(Limber::Application.config.searches.uuid_for!('Find source assets by destination asset barcode'))
+    api.search.find(Limber::Application.config.searches.source_by_parent_barcode)
   end
 end

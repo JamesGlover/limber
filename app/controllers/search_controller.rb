@@ -91,19 +91,19 @@ class SearchController < ApplicationController
       else
         barcode
       end
-    api.search.find(search_settings.uuid_for!('Find assets by barcode')).first(barcode: machine_barcode)
+    api.search.find(search_settings.assets_by_barcode).first(barcode: machine_barcode)
   rescue Sequencescape::Api::ResourceNotFound => exception
     raise exception, "Sorry, could not find labware with the barcode '#{barcode}'."
   end
 
   def find_qcable(barcode)
-    api.search.find(search_settings.uuid_for!('Find qcable by barcode')).first(barcode: barcode)
+    api.search.find(search_settings.qcables_by_barcode).first(barcode: barcode)
   rescue Sequencescape::Api::ResourceNotFound => exception
     raise exception, "Sorry, could not find qcable with the barcode '#{barcode}'."
   end
 
   def retrieve_parent
-    parent_plate = api.search.find(search_settings.uuid_for!('Find source assets by destination asset barcode')).first(barcode: params['barcode'])
+    parent_plate = api.search.find(search_settings.source_by_parent_barcode).first(barcode: params['barcode'])
     respond_to do |format|
       format.json { render json: { plate: { parent_plate_barcode: parent_plate.barcode.ean13 } } }
     end

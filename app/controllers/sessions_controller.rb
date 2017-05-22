@@ -34,6 +34,6 @@ class SessionsController < ApplicationController
   private
 
   def user_search
-    api.search.find(Limber::Application.config.searches.uuid_for!('Find user by swipecard code'))
+    api.search.find(Limber::Application.config.searches.user_by_swipecard)
   end
 end
