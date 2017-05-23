@@ -31,8 +31,6 @@ class SessionsController < ApplicationController
     raise exception, 'Sorry, that swipecard could not be found. Please update your details in Sequencescape.'
   end
 
-  private
-
   def user_search
     api.search.find(Limber::Application.config.searches.user_by_swipecard)
   end

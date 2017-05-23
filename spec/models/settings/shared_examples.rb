@@ -4,7 +4,7 @@ shared_examples 'a settings resource' do
   describe '#populate' do
     has_a_working_api
 
-    let(:uuid_cache) { UuidCache.new(filename: Rails.root.join('spec','data','uuid_cache.yml'), api: api) }
+    let(:uuid_cache) { UuidCache.new(filename: Rails.root.join('spec', 'data', 'uuid_cache.yml'), api: api) }
 
     it 'populates the templates list' do
       subject.populate(uuid_cache)
@@ -21,7 +21,7 @@ shared_examples 'a settings resource' do
       # We still pass through the exception
       expect { subject.populate(uuid_cache) }.to raise_error(Errno::ECONNREFUSED)
       # But late things recover
-      expect(uuid_cache).to receive(:fetch).with(expected_list).and_return({ tested_name => tested_uuid})
+      expect(uuid_cache).to receive(:fetch).with(expected_list).and_return(tested_name => tested_uuid)
       # And now we're able to grab our uuids
       expect(subject.uuid_for(tested_name)).to eq(tested_uuid)
     end

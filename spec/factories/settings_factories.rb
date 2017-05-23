@@ -29,19 +29,20 @@ FactoryGirl.define do
     transient do
       searches [
         {
-          :name=>"Find assets by barcode",
-          :uuid=>"find-assets-by-barcode"
-        },{
-          :name=>"Find source assets by destination asset barcode",
-          :uuid=>"find-source-assets-by-destination-asset-barcode"
+          name: 'Find assets by barcode',
+          uuid: 'find-assets-by-barcode'
         }, {
-          :name=>"Find user by swipecard code",
-          :uuid=>"find-user-by-swipecard-code"
+          name: 'Find source assets by destination asset barcode',
+          uuid: 'find-source-assets-by-destination-asset-barcode'
+        }, {
+          name: 'Find user by swipecard code',
+          uuid: 'find-user-by-swipecard-code'
         },
         {
-          :name=>"Find qcable by barcode",
-          :uuid=>"find-qcable-by-barcode"
-        }]
+          name: 'Find qcable by barcode',
+          uuid: 'find-qcable-by-barcode'
+        }
+      ]
     end
 
     after(:build) do |stt, evaluator|

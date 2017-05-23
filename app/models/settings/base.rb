@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #
 # Class Settings::Base can be used to create classes
 # that get fed uuids from the uuid cache
@@ -8,7 +10,6 @@
 Settings::UnknownResource = Class.new(StandardError)
 
 class Settings::Base
-
   def initialize
     @store = {}
   end

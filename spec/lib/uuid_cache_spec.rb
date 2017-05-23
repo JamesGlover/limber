@@ -25,7 +25,10 @@ describe UuidCache do
     end
 
     describe '#save' do
-      before { subject.build; subject.save }
+      before do
+        subject.build
+        subject.save
+      end
 
       it 'writes the config to the YAML file' do
         file_content = YAML.load_file(file.path)
@@ -58,6 +61,7 @@ describe UuidCache do
   end
 
   after do
-    file.close; file.unlink
+    file.close
+    file.unlink
   end
 end

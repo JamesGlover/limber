@@ -56,7 +56,7 @@ module Robots
       else
         @barcode = barcodes.first
         begin
-         @plate = barcode_search.first(barcode: @barcode) unless @barcode.nil?
+          @plate = barcode_search.first(barcode: @barcode) unless @barcode.nil?
         rescue Sequencescape::Api::ResourceNotFound
           @plate = nil
         end

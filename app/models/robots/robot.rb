@@ -56,14 +56,14 @@ module Robots
     private
 
     def valid_plates(bed_contents)
-      Hash[bed_contents.map do |bed_id, plate_barcode|
+      bed_contents.each_with_object({}) do |(bed_id, plate_barcode), hash|
         beds[bed_id].load(plate_barcode)
-        [bed_id, beds[bed_id].valid? || bed_error(beds[bed_id])]
-      end]
+        hash[bed_id] = beds[bed_id].valid? || bed_error(beds[bed_id])
+      end
     end
 
     def valid_parents
-      Hash[parents_and_position do |parent, position|
+      parents_and_position do |parent, position|
         next true if beds[position].plate.try(:uuid) == parent.try(:uuid)
         message = if parent.present?
                     "Should contain #{parent.barcode.prefix}#{parent.barcode.number}."
@@ -71,7 +71,7 @@ module Robots
                     'Could not match labware with expected child.'
                   end
         error(beds[position], message)
-      end.compact]
+      end
     end
 
     def beds=(new_beds)
@@ -87,10 +87,9 @@ module Robots
     end
 
     def parents_and_position
-      beds.map do |id, bed|
+      beds.each_with_object({}) do |(id, bed), results_hash|
         next if bed.parent.nil?
-        result = yield(bed.parent_plate, bed.parent)
-        [id, result]
+        results_hash[id] = yield(bed.parent_plate, bed.parent)
       end
     end
   end

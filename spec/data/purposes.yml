@@ -1,0 +1,16 @@
+---
+Default Purpose:
+  :asset_type: plate
+Custom Purpose:
+  :asset_type: plate
+  :stock_plate: false
+  :cherrypickable_target: false
+  :input_plate: false
+  :presenter_class: Presenters::PcrPresenter
+  :creator_class: LabwareCreators::TaggedPlate
+  :transfer_template: 'Example transfer'
+  :tag_layout_templates:
+  - Illumina pipeline tagging
+  - 'Sanger_168tags - 10 mer tags in columns ignoring pools (first oligo: ATCACGTT)'
+  :parents:
+  - LB End Prep

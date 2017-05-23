@@ -10,7 +10,7 @@ namespace :config do
     api = Sequencescape::Api.new(Limber::Application.config.api_connection_options)
 
     # Build the uuid cache
-    uuid_cache = UuidCache.new(filename: Rails.root.join('config','settings',"#{Rails.env}_uuid_cache.yml"), api:api)
+    uuid_cache = UuidCache.new(filename: Rails.root.join('config', 'settings', "#{Rails.env}_uuid_cache.yml"), api: api)
     uuid_cache.build
     uuid_cache.save
 

@@ -40,12 +40,14 @@ Limber::Application.config.searches = Settings::Search.new
 require './lib/lazy_api'
 require './lib/uuid_cache'
 
-LazyApi.new(Limber::Application.config.api_connection_options).tap do |api|
-  begin
-    uuid_cache = UuidCache.new(filename: Rails.root.join('config','settings',"#{Rails.env}_uuid_cache.yml"), api:api)
-    Limber::Application.config.transfer_templates.populate(uuid_cache)
-    Limber::Application.config.searches.populate(uuid_cache)
-  rescue Errno::ECONNREFUSED
-    Rails.logger.error('Sequencescape connection unavailable. Initialization deferred.')
+if Limber::Application.config.api_autopopulate
+  LazyApi.new(Limber::Application.config.api_connection_options).tap do |api|
+    begin
+      uuid_cache = UuidCache.new(filename: Rails.root.join('config', 'settings', "#{Rails.env}_uuid_cache.yml"), api: api)
+      Limber::Application.config.transfer_templates.populate(uuid_cache)
+      Limber::Application.config.searches.populate(uuid_cache)
+    rescue Errno::ECONNREFUSED
+      Rails.logger.error('Sequencescape connection unavailable. Initialization deferred.')
+    end
   end
-end if Limber::Application.config.api_autopopulate
+end

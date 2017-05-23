@@ -32,7 +32,7 @@ LB Lib PCR:
   :cherrypickable_target: false
   :input_plate: false
   :presenter_class: Presenters::PcrPresenter
-  :form_class: LabwareCreators::TaggedPlate
+  :creator_class: LabwareCreators::TaggedPlate
   :tag_layout_templates:
   - Illumina pipeline tagging
   - 'Sanger_168tags - 10 mer tags in columns ignoring pools (first oligo: ATCACGTT)'
@@ -50,7 +50,7 @@ LB Lib Pool:
   :asset_type: tube
   :target: StockMultiplexedLibraryTube
   :type: IlluminaHtp::InitialStockTubePurpose
-  :form_class: LabwareCreators::PooledTubesBySubmission
+  :creator_class: LabwareCreators::PooledTubesBySubmission
   :presenter_class: Presenters::SimpleTubePresenter
   :state_changer_class: StateChangers::DefaultStateChanger
   :default_printer_type: :tube
@@ -61,7 +61,7 @@ LB Lib Pool Norm:
   :asset_type: tube
   :target: MultiplexedLibraryTube
   :type: IlluminaHtp::MxTubePurpose
-  :form_class: LabwareCreators::FinalTube
+  :creator_class: LabwareCreators::FinalTube
   :presenter_class: Presenters::FinalTubePresenter
   :state_changer_class: StateChangers::DefaultStateChanger
   :default_printer_type: :tube
@@ -70,7 +70,7 @@ LB Lib Pool Norm:
 LB Lib PrePool:
   :asset_type: plate
   :stock_plate: false
-  :form_class: LabwareCreators::MultiPlatePool
+  :creator_class: LabwareCreators::MultiPlatePool
   :cherrypickable_target: false
   :input_plate: false
   :default_printer_type: :plate_b
@@ -83,7 +83,7 @@ LB Hyb:
   :cherrypickable_target: false
   :input_plate: false
   :default_printer_type: :plate_b
-  :form_class: LabwareCreators::BaitedPlate
+  :creator_class: LabwareCreators::BaitedPlate
   :parents:
   - LB Lib PrePool
 LB Cap Lib:
@@ -123,7 +123,7 @@ Cap Lib Pool Norm:
   :asset_type: tube
   :target: MultiplexedLibraryTube
   :type: IlluminaHtp::MxTubeNoQcPurpose
-  :form_class: LabwareCreators::FinalTubeFromPlate
+  :creator_class: LabwareCreators::FinalTubeFromPlate
   :presenter_class: Presenters::SimpleTubePresenter
   :state_changer_class: StateChangers::DefaultStateChanger
   :default_printer_type: :tube
@@ -170,7 +170,7 @@ PF Lib:
   :input_plate: false
   :default_printer_type: :plate_b
   :presenter_class: Presenters::StandardPresenter
-  :form_class: LabwareCreators::TaggedPlate
+  :creator_class: LabwareCreators::TaggedPlate
   :tag_layout_templates:
   - 'NEXTflex-96 barcoded adapters tags in rows (first oligo: AACGTGAT)'
   :parents:
