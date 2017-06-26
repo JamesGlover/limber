@@ -12,3 +12,5 @@ public/stylesheets/*.css
 /node_modules
 /public/app/assets
 /public/assets
+/public/packs
+/node_modules

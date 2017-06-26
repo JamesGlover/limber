@@ -3,4 +3,4 @@
 //= require jquery_ujs
 //= require tether
 //= require bootstrap
-//= require_tree .
+//= require_tree ./application/.

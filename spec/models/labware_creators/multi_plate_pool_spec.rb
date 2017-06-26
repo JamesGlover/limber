@@ -54,7 +54,7 @@ describe LabwareCreators::MultiPlatePool do
 
     it 'renders the "multi_plate_pooling" page' do
       controller = CreationController.new
-      expect(controller).to receive(:render).with('multi_plate_pooling')
+      expect(controller).to receive(:render).with('multi_plate_pool')
       subject.render(controller)
     end
 

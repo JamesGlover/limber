@@ -41,12 +41,19 @@ module PageHelper
         concat content_tag(:div, class: 'row', &block)
       end
     end
-  ensure
-    content_for :header, ''
   end
 
-  def header(presenter = nil, title = nil, _options = {}, &block)
-    content_for(:header, &block) if block_given?
+  # Renders the content in the block in the
+  # standard page template, including heading flash and sidebar
+  def component(id, css_class = nil)
+    concat render partial: 'header'
+    grouping(:page, id: id, class: "container-fluid #{css_class}") do
+      concat flash_messages
+      concat content_tag(:div, "Please wait...", id: "#{id}-component")
+    end
+  end
+
+  def header(presenter = nil, title = nil, _options = {})
     grouping(:header) do
       render(partial: 'header', locals: { presenter: presenter, title: title })
     end
@@ -54,12 +61,12 @@ module PageHelper
 
   # Main body of the page, provides information about what you HAVE
   def content(&block)
-    grouping(:content, class: 'col-sm-12 col-md-8 col-lg-7 col-xl-6 content-main', &block)
+    grouping(:content, class: 'content-main', &block)
   end
 
   # Provides information about what you can DO
   def sidebar(&block)
-    grouping(:sidebar, class: 'col-sm-12 col-md-4 col-lg-5 col-xl-6 sidebar content-secondary', &block)
+    grouping(:sidebar, class: 'sidebar content-secondary', &block)
   end
 
   def card(title: nil, css_class: '', without_block: false, id: nil, &block)
@@ -86,7 +93,7 @@ module PageHelper
   end
 
   def jumbotron(jumbotron_id = nil, options = {}, &block)
-    options[:class] ||= ''
+    options[:class] ||= String.new
     options[:class] << ' jumbotron'
     options[:id] = jumbotron_id
     section(options, &block)
