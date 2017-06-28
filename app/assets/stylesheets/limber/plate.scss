@@ -16,36 +16,36 @@
   th.first-col {
     width: 15px;
   }
+}
 
-  .well {
-    height:36px;
-    width:36px;
+.well {
+  height:36px;
+  width:36px;
+  text-align: center;
+  overflow: hidden;
+  background: $gray-lighter;
+
+  .aliquot {
+    width:32px;
+    height:32px;
+    margin-top: 2px;
     text-align: center;
-    overflow: hidden;
-    background: $gray-lighter;
-
-    .aliquot {
-      width:32px;
-      height:32px;
-      margin-top: 2px;
-      text-align: center;
-      color:#fff;
-      display: inline-block;
-      border: 2px $gray-dark solid;
-      @include border-radius(7px);
-    }
-
-    .aliquot.pending {
-      color: #000;
-    }
-
-    .aliquot:hover {
-      color: #FFD600;
-      cursor: pointer;
-      @extend .selected-aliquot;
-    }
-
+    color:#fff;
+    display: inline-block;
+    border: 2px $gray-dark solid;
+    @include border-radius(7px);
   }
+
+  .aliquot.pending {
+    color: #000;
+  }
+
+  .aliquot:hover {
+    color: #FFD600;
+    cursor: pointer;
+    @extend .selected-aliquot;
+  }
+
 }
 
 @mixin labware-view {

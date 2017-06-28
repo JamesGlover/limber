@@ -7,7 +7,6 @@
     "babel-plugin-transform-class-properties": "^6.24.1",
     "babel-polyfill": "^6.23.0",
     "babel-preset-env": "^1.5.2",
-    "bootstrap-vue": "^0.16.1",
     "coffee-loader": "^0.7.3",
     "coffee-script": "^1.12.6",
     "compression-webpack-plugin": "^0.4.0",
@@ -28,6 +27,7 @@
     "vue": "^2.3.4",
     "vue-loader": "^12.2.1",
     "vue-template-compiler": "^2.3.4",
+    "vuedraggable": "^2.14.1",
     "webpack": "^3.0.0",
     "webpack-manifest-plugin": "^1.1.0",
     "webpack-merge": "^4.1.0"

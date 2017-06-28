@@ -1,7 +1,6 @@
 /* eslint no-console: 0 */
 
 import Vue from 'vue';
-import BootstrapVue from 'bootstrap-vue';
 import CustomPooledTubes from './components/CustomPooledTubes.vue';
 
 if (process.env.NODE_ENV == 'test') {
@@ -20,8 +19,6 @@ document.addEventListener('DOMContentLoaded', () => {
    * as part of a whole page Vue app.
    */
   if ( document.getElementById('custom-pooled-tubes-component') ) {
-
-    Vue.use(BootstrapVue);
 
     /* The files-list element isn't on all pages. So only initialize our
     * Vue app if we actually find it */
