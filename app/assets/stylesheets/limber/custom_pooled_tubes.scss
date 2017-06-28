@@ -1,0 +1,25 @@
+ul.pool-list {
+  list-style: none;
+  padding: 0 30px;
+
+  li {
+    width: 100%;
+    background-color: $gray-lightest;
+    margin: 20px 0;
+  }
+
+  div.new-pool, div.pool {
+    text-align: center;
+    min-height: 30px;
+    font-size: 30px;
+    width: 100%;
+
+    .well {
+      height:36px;
+      width:36px;
+      text-align: center;
+      overflow: hidden;
+      background: $gray-lighter;
+    }
+  }
+}
