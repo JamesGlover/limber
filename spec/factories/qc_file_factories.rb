@@ -5,6 +5,7 @@ FactoryGirl.define do
   factory :qc_file, class: Sequencescape::QcFile, traits: [:api_object] do
     json_root 'qc_file'
     filename 'file.txt'
+    created_at '2017-06-29T09:31:59.000+01:00'
     size 123
   end
 
@@ -22,7 +23,7 @@ FactoryGirl.define do
     end
 
     qc_files do
-      Array.new(size) { |i| associated(:qc_file, uuid: "example-file-uuid-#{i}", filename: "file#{i}.txt")}
+      Array.new(size) { |i| associated(:qc_file, uuid: "example-file-uuid-#{i}", filename: "file#{i}.txt") }
     end
   end
 end

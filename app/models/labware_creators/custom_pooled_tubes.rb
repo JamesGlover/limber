@@ -5,30 +5,40 @@ module LabwareCreators
   # THe user may create an arbitrary number of tubes, with a
   # 1 or more wells in each. An individual well may contribute
   # to more than one tube.
-  class CustomPooledTubes < Base
+  class CustomPooledTubes < PooledTubesBase
     extend SupportParent::TaggedPlateOnly
     include Form::CustomPage
 
     self.page = 'custom_pooled_tubes'
+    self.attributes += [:file]
 
-    def create_labware!
-      raise 'Not implemented'
-    end
+    delegate :pools, to: :csv_file
 
-    def parent
-      @parent ||= api.plate.find(parent_uuid)
-    end
+    validates :file, presence: true
+    validate :csv_file_valid?, if: :file
 
-    # We may create multiple tubes, so cant redirect onto any particular
-    # one. Redirecting back to the parent is a little grim, so we'll need
-    # to come up with a better solution.
-    # 1) Redirect to the transfer/creation and list the tubes that way
-    # 2) Once tube racks are implemented, we can redirect there.
-    def child
-      parent
+    def save!
+      super # validates and creates tubes
+      upload_file
     end
 
     private
 
+    def csv_file_valid?
+      return true if csv_file.valid?
+      errors.add(:file, csv_file.errors.full_messages.join('; '))
+      false
+    end
+
+    #
+    # Upload the csv file onto the plate
+    #
+    def upload_file
+      parent.qc_files.create_from_file!(file, 'robot_pooling_file.csv')
+    end
+
+    def csv_file
+      @csv_file ||= CsvFile.new(file)
+    end
   end
 end
