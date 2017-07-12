@@ -14,3 +14,6 @@ public/stylesheets/*.css
 /public/assets
 /public/packs
 /node_modules
+REVISION
+release.tar.gz
+vendor/
