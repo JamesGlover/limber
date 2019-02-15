@@ -1,10 +1,10 @@
 import Robots from './robots'
 import { Bed, Car } from './bed_car'
-import SharedPrograms from '/shared_programs'
+import SharedPrograms from './shared_programs'
 
 const IscPrograms = {
   nx8_pooling: {
-    name() { return `Transfer ${this.parent.purpose} => ${this.child.purpose}` },
+    name() { return `Transfer 4x${this.parentA.purpose} => ${this.child.purpose}` },
     assets: {
       parentA: { location: Bed(2), initial_state: ['passed', 'qc_complete'] },
       parentB: { location: Bed(5), initial_state: ['passed', 'qc_complete'] },

@@ -18,7 +18,7 @@ const Bed = (number) => {
   return { name: `Bed ${number}`, barcode: Barcodes[number] }
 }
 const Car = (column, tray) => {
-  return { name: `Carousle ${column}:${tray}`, Barcodes[(column*10)+tray] }
+  return { name: `Carousle ${column}:${tray}`, barcode: Barcodes[(column*10)+tray] }
 }
 
 export { Bed, Car }

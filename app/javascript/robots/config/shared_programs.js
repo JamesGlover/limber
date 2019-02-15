@@ -1,5 +1,5 @@
 
-const Bed = (i) => { return  i }
+import { Bed } from './bed_car'
 
 // Exports shared program templates, which can be imported into other pipeline
 // workflows. Keep keys short but descriptive, as they will be used to reference
@@ -30,16 +30,16 @@ export default {
   // Simple function to generate the common stamping behaviour
   stamp(source, destination) {
     return {
-      name() { return `Transfer ${this.parent.purpose} => ${this.child.purpose}` },
+      name() { return `Transfer ${this.parent.purpose} ➜ ${this.child.purpose}` },
       assets: {
-        parent: { location: Bed(source), initial_state: 'passed' },
-        child: { location: Bed(destination), initial_state: 'pending', target_state: 'passed' }
+        parent: { location: source, initial_state: 'passed' },
+        child: { location: destination, initial_state: 'pending', target_state: 'passed' }
       },
       relationships: [{ parent: 'parent', child: 'child' }]
     }
   },
   stamp4to14start: {
-    name() { return `Transfer ${this.parent.purpose} => ${this.child.purpose}` },
+    name() { return `Transfer ${this.parent.purpose} ➜ ${this.child.purpose}` },
     assets: {
       parent: { location: Bed(4), initial_state: 'passed' },
       child: { location: Bed(14), initial_state: 'pending', target_state: 'started' }

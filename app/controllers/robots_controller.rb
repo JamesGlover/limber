@@ -10,9 +10,13 @@
 # verify => Checks that the robot has been set up correctly, and returns any problems to the user
 # start => Starts the robot, and transitions the plates to the configured states
 class RobotsController < ApplicationController
-  before_action :find_robot
+  before_action :find_robot, except: [:index]
   before_action :validate_beds, only: :start
   before_action :check_for_current_user!, only: [:start]
+
+  def index
+    # Dummy for the configuration demo
+  end
 
   def show
     respond_to do |format|

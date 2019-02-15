@@ -1,10 +1,10 @@
 import Robots from './robots'
-import SharedPrograms from '/shared_programs'
-import { Bed, Car } from './bed_car'
+import SharedPrograms from './shared_programs'
+import { Bed } from './bed_car'
 
 const WgsPrograms = {
   lib_pcr_purification: {
-    name() { return `Transfer ${this.parent.purpose} => ${this.child.purpose}` },
+    name() { return `Transfer ${this.parentA.purpose} ➜ ${this.childA.purpose}` },
     assets: {
       parentA: { location: Bed(1), initial_state: 'passed' },
       childA: { location: Bed(9), initial_state: 'pending', target_state: 'passed' },
@@ -43,7 +43,7 @@ export default [
   },
   {
     robot: Robots.bravo,
-    template: SharedPrograms.stamp14to4start,
+    template: SharedPrograms.stamp4to14start,
     assets: {
       parent: { purpose: 'LB Post Shear' },
       child: { purpose: 'LB End Prep' }
