@@ -41,7 +41,8 @@
           />
         </b-form-group>
         <component
-          :is="requestsFilter"
+          v-for="requestsFilter in requestsFilters"
+          :is="requestsFilter.requestsFilter"
           :requests-with-plates="requestsWithPlates"
           @change="requestsWithPlatesFiltered = $event"
         />
@@ -70,6 +71,7 @@ import resources from 'shared/resources'
 import builPlateObjs from 'shared/plateHelpers'
 import { requestIsActive, requestsFromPlates } from 'shared/requestHelpers'
 import { wellNameToCoordinate, wellCoordinateToName } from 'shared/wellHelpers'
+import { includeUnion, fieldsUnion } from 'shared/jsonIncludeHelpers'
 
 export default {
   name: 'QuadStamp',
@@ -85,6 +87,7 @@ export default {
     sequencescapeApi: { type: String, default: 'http://localhost:3000/api/v2' },
     purposeUuid: { type: String, required: true },
     targetUrl: { type: String, required: true },
+    requestFilters: { type: String, default: 'null' },
     requestFilter: { type: String, required: true },
     targetRows: { type: Number, default: 16 },
     targetColumns: { type: Number, default: 24 },
@@ -128,14 +131,17 @@ export default {
       }, {})
       return deb
     },
+    requestsFilters() {
+      return this.requestFilters.split(',').map(filterName => filterProps[filterName])
+    },
     requestsFilter() {
       return filterProps[this.requestFilter].requestsFilter
     },
     plateIncludes() {
-      return filterProps[this.requestFilter].plateIncludes
+      return includeUnion(this.requestsFilters.map(filter => filter.plateIncludes))
     },
     plateFields() {
-      return filterProps[this.requestFilter].plateFields
+      return fieldsUnion(this.requestsFilters.map(filter => filter.plateFields))
     }
   },
   methods: {

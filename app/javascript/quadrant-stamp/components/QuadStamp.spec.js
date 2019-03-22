@@ -4,13 +4,14 @@ import QuadStamp from './QuadStamp.vue'
 import localVue from 'test_support/base_vue.js'
 import { plateFactory } from 'test_support/factories.js'
 import flushPromises from 'flush-promises'
+import filterProps from './filterProps'
 
 import MockAdapter from 'axios-mock-adapter'
 
 const mockLocation = {}
 
 describe('QuadStamp', () => {
-  const wrapperFactory = function() {
+  const wrapperFactory = function(props = {}) {
     // Not ideal using mount here, but having massive trouble
     // triggering change events on unmounted components
     return shallowMount(QuadStamp, {
@@ -21,7 +22,8 @@ describe('QuadStamp', () => {
         purposeUuid: 'test',
         targetUrl: 'example/example',
         locationObj: mockLocation,
-        requestFilter: 'null'
+        requestFilter: 'null',
+        ... props
       },
       localVue
     })
@@ -174,5 +176,26 @@ describe('QuadStamp', () => {
       'H2': { pool_index: 4 },
       'J2': { pool_index: 4 }
     })
+  })
+
+  it('can use a single filter', ( ) => {
+    const wrapper = wrapperFactory({ requestFilters: 'null' })
+
+    expect(wrapper.vm.requestsFilters.length).toEqual(1)
+    expect(wrapper.vm.requestsFilters[0]).toEqual(filterProps['null'])
+  })
+
+  it('can use multiple filters', ( ) => {
+    const wrapper = wrapperFactory({ requestFilters: 'primer-panel,null' })
+
+    expect(wrapper.vm.requestsFilters.length).toEqual(2)
+    expect(wrapper.vm.requestsFilters[0]).toEqual(filterProps['primer-panel'])
+    expect(wrapper.vm.requestsFilters[1]).toEqual(filterProps['null'])
+  })
+
+  it('can combine plate includes', () => {
+    const wrapper = wrapperFactory({ requestFilters: 'primer-panel,null' })
+
+    expect(wrapper.vm.plateIncludes).toEqual('wells,wells.requests_as_source,wells.requests_as_source.primer_panel,wells.aliquots.request.primer_panel,wells.aliquots.request')
   })
 })
